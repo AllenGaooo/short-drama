@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: service-drama
+  cloud:
+    nacos:
+      config:
+        server-addr: localhost:8848
+        file-extension: yaml
+        group: DEFAULT_GROUP
+        namespace:
+        enabled: true

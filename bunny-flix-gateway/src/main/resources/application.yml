@@ -1,0 +1,118 @@
+server:
+  port: 8080
+
+spring:
+  main:
+    web-application-type: reactive
+  config:
+    import: optional:nacos:bunny-flix.yml
+  application:
+    name: bunny-flix-gateway
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+      config:
+        server-addr: 127.0.0.1:8848
+        file-extension: yaml
+    sentinel:
+      transport:
+        dashboard: localhost:8858
+        # 本机 Sentinel 客户端与 Dashboard 通信的端口
+        port: 8719
+      # 应用启动时立即注册到 Dashboard
+      eager: true
+      # 熔断/限流规则加载
+      filter:
+        enabled: true
+    gateway:
+      routes:
+        - id: service-user
+          uri: lb://service-user
+          predicates:
+            - Path=/api/user/**
+        - id: service-drama
+          uri: lb://service-drama
+          predicates:
+            - Path=/api/drama/**
+        - id: service-video
+          uri: lb://service-video
+          predicates:
+            - Path=/api/video/**
+        - id: drama-play-service
+          uri: lb://service-video
+          predicates:
+            - Path=/api/play/**
+        - id: service-search
+          uri: lb://service-search
+          predicates:
+            - Path=/api/search/**
+        - id: service-interaction
+          uri: lb://service-interaction
+          predicates:
+            - Path=/api/interaction/**
+        - id: service-member
+          uri: lb://service-member
+          predicates:
+            - Path=/api/member/**
+        - id: service-recommend
+          uri: lb://service-recommend
+          predicates:
+            - Path=/api/recommend/**
+        - id: service-data
+          uri: lb://service-data
+          predicates:
+            - Path=/api/data/**
+        - id: service-marketing
+          uri: lb://service-marketing
+          predicates:
+            - Path=/api/marketing/**
+        - id: service-push
+          uri: lb://service-push
+          predicates:
+            - Path=/api/push/**
+        - id: service-coin
+          uri: lb://service-coin
+          predicates:
+            - Path=/api/coin/**
+        - id: service-id-generator
+          uri: lb://service-id-generator
+          predicates:
+            - Path=/api/idgen/**
+        - id: service-admin
+          uri: lb://service-admin
+          predicates:
+            - Path=/api/admin/**
+        - id: bunny-flix-agent
+          uri: lb://bunny-flix-agent
+          predicates:
+            - Path=/api/agent/**
+        - id: bunny-flix-mcp
+          uri: lb://bunny-flix-mcp
+          predicates:
+            - Path=/api/mcp/**
+        - id: bunny-flix-rag
+          uri: lb://bunny-flix-rag
+          predicates:
+            - Path=/api/rag/**
+        - id: bunny-flix-aigateway
+          uri: lb://bunny-flix-aigateway
+          predicates:
+            - Path=/api/aigateway/**
+        - id: bunny-flix-graph
+          uri: lb://bunny-flix-graph
+          predicates:
+            - Path=/api/graph/**
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+  data:
+    redis:
+      host: 127.0.0.1
+      port: 6379
+
+jwt:
+  secret: <REDACTED>
+  expiration: 7200000
+  refresh-expiration: 604800000

@@ -1,0 +1,58 @@
+server:
+  port: 8950
+spring:
+  config:
+    import: optional:nacos:bunny-flix.yml
+  application:
+    name: service-coin
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+      config:
+        server-addr: 127.0.0.1:8848
+        file-extension: yaml
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/bunny_flix?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true
+    username: root
+    password:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+  data:
+    redis:
+      host: 127.0.0.1
+      port: 6379
+      lettuce:
+        pool:
+          max-active: 10
+          max-idle: 5
+          min-idle: 2
+
+rocketmq:
+  name-server: 127.0.0.1:9876
+  producer:
+    group: coin-producer-group
+    send-message-timeout: 3000
+    retry-times-when-send-failed: 2
+
+mybatis-plus:
+  mapper-locations: classpath*:/mapper/**/*.xml
+  global-config:
+    db-config:
+      id-type: assign_id
+  configuration:
+    map-underscore-to-camel-case: true
+
+# --------------- 金币业务配置 ---------------
+coin:
+  # 完成一集发放的金币数量
+  reward-per-episode: 10
+  # 每日发放上限（防刷）
+  daily-limit: 200
+  # 幂等标记过期时间（天）
+  idempotent-expire-days: 30
+
+jwt:
+  secret: <REDACTED>
+  expiration: 7200000
+  refresh-expiration: 604800000

@@ -1,0 +1,101 @@
+server:
+  port: 8300
+
+spring:
+  config:
+    import: optional:nacos:bunny-flix.yml
+  application:
+    name: service-video
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+      config:
+        server-addr: localhost:8848
+        file-extension: yaml
+        shared-configs:
+          - data-id: common.yml
+            refresh: true
+  datasource:
+    url: jdbc:mysql://localhost:3306/bunny_flix?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
+    username: root
+    password:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      initial-size: 5
+      min-idle: 5
+      max-active: 20
+      max-wait: 60000
+      time-between-eviction-runs-millis: 60000
+      min-evictable-idle-time-millis: 300000
+      validation-query: SELECT 1
+      test-while-idle: true
+      test-on-borrow: false
+      test-on-return: false
+      pool-prepared-statements: true
+      max-pool-prepared-statement-per-connection-size: 20
+      filter:
+        stat:
+          enabled: true
+        wall:
+          enabled: true
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      database: 0
+      timeout: 3000ms
+      lettuce:
+        pool:
+          max-active: 8
+          max-idle: 8
+          min-idle: 0
+          max-wait: -1ms
+
+rocketmq:
+  name-server: localhost:9876
+  producer:
+    group: video-producer-group
+    send-message-timeout: 3000
+    retry-times-when-send-failed: 2
+
+# --------------- 短剧播放服务配置 ---------------
+play:
+  # CDN 域名（HLS 流分发）
+  cdn:
+    domain: https://cdn.bunny-flix.com
+  # 防盗链 Token 配置
+  token:
+    # 签名密钥（生产环境务必改为 Nacos / 环境变量注入）
+    secret: <REDACTED>
+    # 凭证有效期（秒）
+    expire-seconds: 600
+  # Sentinel 限流阈值（可在 Dashboard 动态调整）
+  sentinel:
+    authorize-qps: 50000
+    progress-qps: 100000
+    event-qps: 50000
+
+spring:
+  cloud:
+    sentinel:
+      transport:
+        dashboard: localhost:8858
+        port: 8721
+      eager: true
+
+mybatis-plus:
+  mapper-locations: classpath*:/mapper/**/*.xml
+  type-aliases-package: com.bunny.flix.video.entity
+  global-config:
+    db-config:
+      id-type: assign_id
+  configuration:
+    map-underscore-to-camel-case: true
+    cache-enabled: false
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+logging:
+  level:
+    com.bunny.flix.video: debug

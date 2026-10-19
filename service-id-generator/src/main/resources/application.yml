@@ -1,0 +1,61 @@
+server:
+  port: 9100
+
+spring:
+  config:
+    import: optional:nacos:bunny-flix.yml
+  application:
+    name: service-id-generator
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+      config:
+        server-addr: 127.0.0.1:8848
+        file-extension: yaml
+    sentinel:
+      transport:
+        dashboard: localhost:8858
+        port: 8720
+      # 启动即注册到 Dashboard
+      eager: true
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/bunny_flix?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true
+    username: root
+    password:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+  data:
+    redis:
+      host: 127.0.0.1
+      port: 6379
+      lettuce:
+        pool:
+          max-active: 10
+          max-idle: 5
+          min-idle: 2
+
+mybatis-plus:
+  mapper-locations: classpath*:/mapper/**/*.xml
+  global-config:
+    db-config:
+      id-type: input
+
+# --------------- Leaf 号段模式配置 ---------------
+idgen:
+  # 当前号段剩余量 <= 区间长度 * 20% 时，异步预取下一段
+  prefetch-threshold: 0.2
+  # 异步预取线程池大小
+  prefetch-pool-size: 4
+  # 新建 bizTag 的默认号段步长（步长越大，DB 访问越少）
+  default-step: 1000
+  # 单次批量获取上限
+  max-batch-count: 1000
+  # 启动时预热，避免首个请求同步等数据库
+  warm-up-on-start: true
+  # Redis 发号统计（关闭不影响发号）
+  redis-stat-enabled: true
+  # Sentinel 默认限流阈值（可在 Dashboard 动态调整）
+  sentinel:
+    next-qps: 20000
+    batch-qps: 2000

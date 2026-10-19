@@ -1,0 +1,21 @@
+-- =====================================================
+-- 兔兔短剧 (bunny-flix) 后台菜单表
+-- ⚠️ 建表与初始化已合并到 sql/admin_user.sql（后台模块完整建表脚本）
+-- 请直接执行：mysql -u root bunny_flix < sql/admin_user.sql
+-- 本文件仅保留菜单表的字段说明，不再单独执行，避免重复建表/插数据。
+-- =====================================================
+
+-- 后台菜单表 admin_menu 字段说明：
+--   id          BIGINT       菜单ID（自增）
+--   user_id     BIGINT       关联管理员ID（t_admin_user.id）
+--   parent_id   BIGINT       父菜单ID，0表示一级菜单（自关联）
+--   name        VARCHAR(64)  菜单名称
+--   type        TINYINT      菜单类型: 1目录 2菜单(页面) 3按钮(权限)
+--   path        VARCHAR(128) 前端路由路径，如 /user/list
+--   component   VARCHAR(128) 前端组件路径，如 views/user/UserList.vue
+--   icon        VARCHAR(64)  图标
+--   permission  VARCHAR(64)  权限标识，如 user:list（按钮级控制）
+--   sort        INT          排序号，越小越靠前
+--   visible     TINYINT      是否显示: 1显示 0隐藏
+--   create_time DATETIME     创建时间
+--   update_time DATETIME     更新时间

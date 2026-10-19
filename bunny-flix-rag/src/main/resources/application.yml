@@ -1,0 +1,21 @@
+server:
+  port: 8803
+spring:
+  autoconfigure:
+    exclude: org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration,org.springframework.boot.autoconfigure.jdbc.DataSourceTransactionManagerAutoConfiguration,com.alibaba.druid.spring.boot.autoconfig.DruidDataSourceAutoConfigure
+  config:
+    import: optional:nacos:bunny-flix.yml
+  application:
+    name: bunny-flix-rag
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+      config:
+        server-addr: 127.0.0.1:8848
+        file-extension: yaml
+
+jwt:
+  secret: <REDACTED>
+  expiration: 7200000
+  refresh-expiration: 604800000

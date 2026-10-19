@@ -1,0 +1,30 @@
+server:
+  port: 9000
+
+spring:
+  config:
+    import: optional:nacos:bunny-flix.yml
+  application:
+    name: service-push
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+      config:
+        server-addr: 127.0.0.1:8848
+        file-extension: yaml
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/bunny_flix?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true
+    username: root
+    password:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+rocketmq:
+  name-server: 127.0.0.1:9876
+  consumer:
+    group: push-consumer-group
+
+mybatis-plus:
+  global-config:
+    db-config:
+      id-type: input

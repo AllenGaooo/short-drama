@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="300" height="400" viewBox="0 0 300 400">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#3a3f63"/>
+      <stop offset="100%" stop-color="#6b6f8f"/>
+    </linearGradient>
+  </defs>
+  <rect width="300" height="400" fill="url(#g)"/>
+  <circle cx="150" cy="170" r="52" fill="rgba(255,255,255,.15)"/>
+  <polygon points="138,148 178,170 138,192" fill="rgba(255,255,255,.75)"/>
+  <text x="150" y="270" text-anchor="middle" fill="rgba(255,255,255,.85)"
+        font-family="sans-serif" font-size="20">兔兔短剧</text>
+  <text x="150" y="298" text-anchor="middle" fill="rgba(255,255,255,.5)"
+        font-family="sans-serif" font-size="13">暂无封面</text>
+</svg>

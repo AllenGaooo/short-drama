@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.bunny.flix</groupId>
+    <artifactId>bunny-flix-server</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <name>bunny-flix-server</name>
+    <description>兔兔短剧 - 父工程</description>
+
+    <modules>
+        <module>bunny-flix-common/common-core</module>
+        <module>bunny-flix-common/common-dto</module>
+        <module>bunny-flix-common/common-security</module>
+        <module>bunny-flix-common/common-feign</module>
+        <module>bunny-flix-gateway</module>
+        <module>service-user</module>
+        <module>service-drama</module>
+        <module>service-video</module>
+        <module>service-search</module>
+        <module>service-interaction</module>
+        <module>service-member</module>
+        <module>service-recommend</module>
+        <module>service-data</module>
+        <module>service-marketing</module>
+        <module>service-push</module>
+        <module>service-id-generator</module>
+        <module>service-coin</module>
+        <module>service-admin</module>
+        <module>bunny-flix-agent</module>
+        <module>bunny-flix-mcp</module>
+        <module>bunny-flix-rag</module>
+        <module>bunny-flix-aigateway</module>
+        <module>bunny-flix-graph</module>
+    </modules>
+
+    <properties>
+        <java.version>17</java.version>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <spring-boot.version>3.0.2</spring-boot.version>
+        <spring-cloud.version>2022.0.0</spring-cloud.version>
+        <!--
+          Spring AI 版本说明：
+          0.8.1 是最后支持 Spring Boot 3.0.x / 3.1.x 的版本。
+          Spring AI 1.0.0+（含 M6/M7）要求 Spring Boot 3.2+，GA 要求 3.4+，
+          本项目为 Boot 3.0.2，因此使用 0.8.1 以保证兼容。
+          若后续统一升级 Boot 到 3.2+，可平滑切换到 Spring AI 1.0（ChatClient API 更现代）。
+        -->
+        <spring-ai.version>0.8.1</spring-ai.version>
+        <spring-cloud-alibaba.version>2022.0.0.0-RC2</spring-cloud-alibaba.version>
+
+        <mybatis-plus.version>3.5.3.1</mybatis-plus.version>
+        <mysql.version>8.0.32</mysql.version>
+        <druid.version>1.2.16</druid.version>
+        <hutool.version>5.8.15</hutool.version>
+        <knife4j.version>4.1.0</knife4j.version>
+        <jjwt.version>0.11.5</jjwt.version>
+        <redisson.version>3.20.0</redisson.version>
+        <elasticsearch.version>8.14.3</elasticsearch.version>
+        <rocketmq.version>2.2.3</rocketmq.version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <!-- Spring Boot -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${spring-boot.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <!-- Spring AI（对话 Agent / function calling） -->
+            <dependency>
+                <groupId>org.springframework.ai</groupId>
+                <artifactId>spring-ai-bom</artifactId>
+                <version>${spring-ai.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <!-- Spring Cloud -->
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <!-- Spring Cloud Alibaba -->
+            <dependency>
+                <groupId>com.alibaba.cloud</groupId>
+                <artifactId>spring-cloud-alibaba-dependencies</artifactId>
+                <version>${spring-cloud-alibaba.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <!-- MyBatis Plus -->
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-boot-starter</artifactId>
+                <version>${mybatis-plus.version}</version>
+            </dependency>
+            <!-- MySQL -->
+            <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>${mysql.version}</version>
+            </dependency>
+            <!-- Druid -->
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>druid-spring-boot-starter</artifactId>
+                <version>${druid.version}</version>
+            </dependency>
+            <!-- Hutool -->
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-all</artifactId>
+                <version>${hutool.version}</version>
+            </dependency>
+            <!-- Knife4j -->
+            <dependency>
+                <groupId>com.github.xiaoymin</groupId>
+                <artifactId>knife4j-openapi3-jakarta-spring-boot-starter</artifactId>
+                <version>${knife4j.version}</version>
+            </dependency>
+            <!-- JWT -->
+            <dependency>
+                <groupId>io.jsonwebtoken</groupId>
+                <artifactId>jjwt-api</artifactId>
+                <version>${jjwt.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.jsonwebtoken</groupId>
+                <artifactId>jjwt-impl</artifactId>
+                <version>${jjwt.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.jsonwebtoken</groupId>
+                <artifactId>jjwt-jackson</artifactId>
+                <version>${jjwt.version}</version>
+            </dependency>
+            <!-- Redisson -->
+            <dependency>
+                <groupId>org.redisson</groupId>
+                <artifactId>redisson-spring-boot-starter</artifactId>
+                <version>${redisson.version}</version>
+            </dependency>
+            <!-- Elasticsearch Java API Client（官方 8.x 客户端，与服务端 8.14.3 对齐） -->
+            <dependency>
+                <groupId>co.elastic.clients</groupId>
+                <artifactId>elasticsearch-java</artifactId>
+                <version>${elasticsearch.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.elasticsearch.client</groupId>
+                <artifactId>elasticsearch-rest-client</artifactId>
+                <version>${elasticsearch.version}</version>
+            </dependency>
+            <!-- RocketMQ (Boot 3 兼容 starter) -->
+            <dependency>
+                <groupId>com.pig4cloud.plugin</groupId>
+                <artifactId>rocketmq-spring-boot3-starter</artifactId>
+                <version>${rocketmq.version}</version>
+            </dependency>
+            <!-- Seata -->
+            <dependency>
+                <groupId>com.alibaba.cloud</groupId>
+                <artifactId>spring-cloud-starter-alibaba-seata</artifactId>
+                <version>${spring-cloud-alibaba.version}</version>
+            </dependency>
+
+            <!-- 内部模块 -->
+            <dependency>
+                <groupId>com.bunny.flix</groupId>
+                <artifactId>common-core</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.bunny.flix</groupId>
+                <artifactId>common-dto</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.bunny.flix</groupId>
+                <artifactId>common-security</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.bunny.flix</groupId>
+                <artifactId>common-feign</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <!-- 统一引入 lombok，所有子模块自动继承，避免“程序包 lombok 不存在” -->
+    <dependencies>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <optional>true</optional>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>${spring-boot.version}</version>
+            </plugin>
+        </plugins>
+    </build>
+</project>

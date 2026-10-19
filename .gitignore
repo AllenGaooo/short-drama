@@ -1,0 +1,33 @@
+# ===== Maven / Java =====
+target/
+*.class
+*.log
+*.jar
+*.war
+*.nar
+*.ear
+*.zip
+*.tar.gz
+*.rar
+*.iml
+.idea/
+out/
+
+# ===== Node（前端 page-* / bunny-flix-web）=====
+node_modules/
+dist/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# ===== macOS / IDE / 工具数据 =====
+.DS_Store
+.AppleDouble
+.Spotlight-V100
+.Trashes
+.codebuddy/
+
+# ===== 本地环境配置（含密钥占位，勿入库）=====
+*.local.yml
+*.local.yaml
+.env

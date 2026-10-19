@@ -1,0 +1,51 @@
+server:
+  port: 8801
+spring:
+  autoconfigure:
+    exclude: org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration,org.springframework.boot.autoconfigure.jdbc.DataSourceTransactionManagerAutoConfiguration,com.alibaba.druid.spring.boot.autoconfig.DruidDataSourceAutoConfigure
+  config:
+    import: optional:nacos:bunny-flix.yml
+  application:
+    name: bunny-flix-agent
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+      config:
+        server-addr: 127.0.0.1:8848
+        file-extension: yaml
+  data:
+    redis:
+      host: 127.0.0.1
+      port: 6379
+      lettuce:
+        pool:
+          max-active: 10
+          max-idle: 5
+          min-idle: 2
+
+# 下游服务地址（走网关或直接服务名，agent 内部用 RestTemplate 调用）
+agent:
+  mcp-service: http://bunny-flix-mcp
+  rag-service: http://bunny-flix-rag
+  # Spring AI 开关：关闭后走规则型意图识别 + 本地兜底回复
+  spring-ai:
+    enabled: true
+
+# --------------- Spring AI 配置 ---------------
+spring:
+  ai:
+    openai:
+      # API-KEY 建议通过环境变量注入，不要提交到代码仓库
+      api-key: ${OPENAI_API_KEY:}
+      # 兼容 OpenAI 接口的其他服务（如国内中转），可改 base-url
+      base-url: ${OPENAI_BASE_URL:https://api.openai.com}
+      chat:
+        options:
+          model: gpt-3.5-turbo
+          temperature: 0.7
+
+jwt:
+  secret: <REDACTED>
+  expiration: 7200000
+  refresh-expiration: 604800000

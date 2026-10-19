@@ -1,0 +1,33 @@
+server:
+  port: 8804
+spring:
+  autoconfigure:
+    exclude: org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration,org.springframework.boot.autoconfigure.jdbc.DataSourceTransactionManagerAutoConfiguration,com.alibaba.druid.spring.boot.autoconfig.DruidDataSourceAutoConfigure
+  config:
+    import: optional:nacos:bunny-flix.yml
+  application:
+    name: bunny-flix-aigateway
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+      config:
+        server-addr: 127.0.0.1:8848
+        file-extension: yaml
+
+# 下游服务（走服务发现负载均衡）
+aigateway:
+  rag-service: lb://bunny-flix-rag
+  graph-service: lb://bunny-flix-graph
+
+# 可选：OpenAI 兼容大模型
+aigateway.llm:
+  enabled: false
+  url:
+  api-key:
+  model: gpt-3.5-turbo
+
+jwt:
+  secret: <REDACTED>
+  expiration: 7200000
+  refresh-expiration: 604800000

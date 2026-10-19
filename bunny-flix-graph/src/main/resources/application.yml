@@ -1,0 +1,19 @@
+server:
+  port: 8805
+spring:
+  config:
+    import: optional:nacos:bunny-flix.yml
+  application:
+    name: bunny-flix-graph
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+      config:
+        server-addr: 127.0.0.1:8848
+        file-extension: yaml
+
+jwt:
+  secret: <REDACTED>
+  expiration: 7200000
+  refresh-expiration: 604800000

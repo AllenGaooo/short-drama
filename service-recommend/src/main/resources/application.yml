@@ -1,0 +1,40 @@
+server:
+  port: 8700
+spring:
+  config:
+    import: optional:nacos:bunny-flix.yml
+  application:
+    name: service-recommend
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+      config:
+        server-addr: 127.0.0.1:8848
+        file-extension: yaml
+  data:
+    redis:
+      host: 127.0.0.1
+      port: 6379
+      lettuce:
+        pool:
+          max-active: 10
+          max-idle: 5
+          min-idle: 2
+  redisson:
+    address: redis://127.0.0.1:6379
+
+rocketmq:
+  name-server: 127.0.0.1:9876
+  producer:
+    group: recommend-producer-group
+    send-message-timeout: 3000
+    retry-times-when-send-failed: 2
+    max-message-size: 4194304
+  consumer:
+    group: recommend-play-event-group
+
+jwt:
+  secret: <REDACTED>
+  expiration: 7200000
+  refresh-expiration: 604800000
