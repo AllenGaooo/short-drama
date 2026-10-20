@@ -84,7 +84,8 @@ const go = (tab) => {
 }
 
 const goHome = () => router.push('/')
-const goLogin = () => router.push('/login')
+// 带 redirect，登录成功后回到原页面
+const goLogin = () => router.push({ path: '/login', query: { redirect: route.fullPath } })
 
 const onSearch = () => {
   if (!keyword.value.trim()) return
